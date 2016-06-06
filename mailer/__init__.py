@@ -89,6 +89,23 @@ def send_html_mail(subject, message, message_html, from_email, recipient_list,
     msg.save()
     return 1
 
+def send_EmailMultiAlternatives(email, priority=None):
+
+    from mailer.models import make_message
+    if priority is None :
+        priority = get_priority(priority)
+
+    msg = make_message(
+        subject =   email.subject,
+        body =      email.body,
+        from_email= email.from_email,
+        to =        email.to,
+        priority =  priority
+    )
+    msg.email = email
+    msg.save()
+
+    return 1
 
 def send_mass_mail(datatuple, fail_silently=False, auth_user=None,
                    auth_password=None, connection=None):
